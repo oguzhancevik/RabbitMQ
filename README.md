@@ -38,6 +38,8 @@ RabbitMQ Server klasörü içerisindeki RabbitMQ Command Prompt'u administrator 
 sbin path’ine girdikten sonra şimdi Management Plugin’inini enable edebilmek için aşağıdaki komutları girelim:
 rabbitmq-plugins enable rabbitmq_management
 
+Not: Enable işlemi sırasında herhangi bir “Error: unable to connect to node ‘rabbit@somename’: nodedown” ile ilgili bir hata alırsanız eğer, komut satırında “rabbitmq-service stop” komutunu çalıştırıp sonrasında ise “rabbitmq-server restart” komutunu çalıştırınız.
+
 
 
 Kanaklar:
