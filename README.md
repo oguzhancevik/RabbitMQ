@@ -11,7 +11,8 @@ Avantajları:
 -Uygulamanızdaki resim işleme, rapor oluşturma gibi uzun süren işleri arka planda yapmak isteyenler.
 
 Öne çıkan özellikleri:
--Robust mesajlaşma
+
+Robust mesajlaşma
 -Kullanım kolaylığı
 -Geniş bir işletim sistemini üzerinde çalıştırılabilmesi
 -Geniş bir geliştirme platformunu desteklemesi
