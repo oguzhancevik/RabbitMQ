@@ -26,6 +26,15 @@ Not:
 -Producer, Queue ve Consumerlar aynı makine üzerinde olmak zorunda değildir.
 -Producer ve Consumerlar aynı programlama dili ile yazılmak zorunda değildir.
 
+Kurulum:
+Ben test ortamını Windows 10 makinemde gerçekleştireceğim.İlk olarak bu linkten ( http://www.erlang.org/downloads ) erlang kaynağını yüklememiz lazım. Ben şuan en güncel sürüm olan OTP 20.1 Windows 64 biti indirdim. 
+
+Erlang dilinin kurulumundan sonra RabbitMQ kurulumuna geçebiliriz.Öncelikle bu linkten ( http://www.rabbitmq.com/install-windows.html ) en son sürümünü rabbitmq-server-3.6.14.exe indirdim.
+
+Kurulumları yaptıktan sonra:
+
+RabbitMQ Server klasörü içerisindeki RabbitMQ Command Prompt'u administrator yetkisi ile çalıştırın. Çalıştırdıktan sonra işlem yapabilmemiz için servislerin bulunduğu C:\Program Files\RabbitMQ Server\rabbitmq_server-3.6.14\sbin yolunun içine girelim.
+
 
 
 Kanaklar:
