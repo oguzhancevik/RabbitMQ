@@ -13,7 +13,9 @@ Avantajları:
 Öne çıkan özellikleri:
 
 Robust mesajlaşma
+
 Kullanım kolaylığı
+
 Geniş bir işletim sistemini üzerinde çalıştırılabilmesi
 Geniş bir geliştirme platformunu desteklemesi
 Açık kaynaklı ve ticari desteğinin bulunması
