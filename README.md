@@ -5,12 +5,12 @@ Publish ve Subscribe mantığı altında çalışmaktadır. Yani bir uygulamadan
 
 RabbitMQ bir çok yazılım diline destek verdiği gibi, bir çok işletim sistemi üzerinde de çalışabilmektedir ve open source‘dur.
 
-*Avantajları:
+Avantajları:
 -Ölçeklenebilir uygulamalar yapmak istiyenler.
 -Birden fazla uygulamayı belli bir standartta haberleştirmek isteyenler.
 -Uygulamanızdaki resim işleme, rapor oluşturma gibi uzun süren işleri arka planda yapmak isteyenler.
 
-*Öne çıkan özellikleri:
+Öne çıkan özellikleri:
 -Robust mesajlaşma
 -Kullanım kolaylığı
 -Geniş bir işletim sistemini üzerinde çalıştırılabilmesi
