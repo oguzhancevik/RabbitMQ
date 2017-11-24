@@ -40,7 +40,7 @@ rabbitmq-plugins enable rabbitmq_management
 
 Not: Enable işlemi sırasında herhangi bir “Error: unable to connect to node ‘rabbit@somename’: nodedown” ile ilgili bir hata alırsanız eğer, komut satırında “rabbitmq-service stop” komutunu çalıştırıp sonrasında ise “rabbitmq-server restart” komutunu çalıştırınız.
 
-
+Bu işlemlerin sonucunda Management ekranına girebilmek için localhost’unuz üzerinden default olarak gelen “15672” portu ile http://localhost:15672 adresinden erişebilirsiniz. İlk giriş sırasında kullanıcı ve şifre kısımları default olarak “guest” değeri gelmektedir.
 
 Kanaklar:
 http://www.gokhan-gokalp.com/rabbitmq-nedir-ve-windowsa-kurulumu/
