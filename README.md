@@ -35,6 +35,9 @@ Kurulumları yaptıktan sonra:
 
 RabbitMQ Server klasörü içerisindeki RabbitMQ Command Prompt'u administrator yetkisi ile çalıştırın. Çalıştırdıktan sonra işlem yapabilmemiz için servislerin bulunduğu C:\Program Files\RabbitMQ Server\rabbitmq_server-3.6.14\sbin yolunun içine girelim.
 
+sbin path’ine girdikten sonra şimdi Management Plugin’inini enable edebilmek için aşağıdaki komutları girelim:
+rabbitmq-plugins enable rabbitmq_management
+
 
 
 Kanaklar:
