@@ -1,6 +1,4 @@
 # RabbitMQ
-RabbitMQ
-
 RabbitMQ, Erlang programlama dili ile geliştirilen AMQP standartlarına göre geliştirilmiş robust mesajlaşma sistemidir.
 
 Publish ve Subscribe mantığı altında çalışmaktadır. Yani bir uygulamadan bir mesajı alıp, bir başka uygulamaya sırası geldiğinde bunu iletmektir.
