@@ -42,6 +42,12 @@ Not: Enable işlemi sırasında herhangi bir “Error: unable to connect to node
 
 Bu işlemlerin sonucunda Management ekranına girebilmek için localhost’unuz üzerinden default olarak gelen “15672” portu ile http://localhost:15672 adresinden erişebilirsiniz. İlk giriş sırasında kullanıcı ve şifre kısımları default olarak “guest” değeri gelmektedir.
 
+
+
 Kanaklar:
 http://www.gokhan-gokalp.com/rabbitmq-nedir-ve-windowsa-kurulumu/
 http://lab2023.com/rabbitmq.html
+http://www.bahadirakin.com/amqp-ve-rabbitmq/
+http://www.bahadirakin.com/spring-amqp-ve-rabbitmq/
+https://spring.io/guides/gs/messaging-rabbitmq/
+https://www.rabbitmq.com/tutorials/tutorial-one-java.html
