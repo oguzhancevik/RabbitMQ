@@ -25,7 +25,7 @@ public class Producer {
 
 			Channel channel = connection.createChannel();
 
-			// local'de tan�ml� i�lem yapaca��m�z queue isimlerimizi tan�ml�yoruz
+			// local'de tanımlı işlem yapacağımız queue isimlerimizi tanımlıyoruz
 			String queueA = "queueA";
 			String queueB = "queueB";
 
@@ -34,18 +34,18 @@ public class Producer {
 			Date Zaman = new Date();
 
 			System.out.println("Queue secin (a/b)");
-			Scanner Giris = new Scanner(System.in); // Kullan�c� giri�i i�in Scanner komutu kullan�r�z
+			Scanner Giris = new Scanner(System.in); // Kullanıcı girişi için Scanner komutunu kullanırız
 			Secim = Giris.nextLine();
 
 			System.out.println("Mesaji giriniz:(" + Secim + ")");
-			Mesaj = Giris.nextLine(); // girilen de�eri Mesaj de�i�kenine atad�k
+			Mesaj = Giris.nextLine(); // Girilen değeri Mesaj değişkenine atadık
 			System.out.println(Mesaj);
 
 			Mesaj = Zaman.toString() + " | " + Mesaj + " |";
 
 			/*
-			 * equalsIgnoreCase -> iki stringi b�y�k k���k harf ayr�m� yapmadan
-			 * kar��la�t�r�r �r: a,A
+			 * equalsIgnoreCase -> iki stringi büyük küçük harf ayrımı yapmadan
+			 * karşılaştırır: a,A
 			 */
 			if (Secim.equalsIgnoreCase("a")) {
 				channel.basicPublish("", queueA, null, Mesaj.getBytes());
@@ -55,11 +55,11 @@ public class Producer {
 				channel.basicPublish("", queueB, null, Mesaj.getBytes());
 			}
 
-			// en sonunda ise channel ve connection'� kapat�yoruz.
+			// en sonunda ise channel ve connection'ı kapatıyoruz.
 			channel.close();
 			connection.close();
 		} catch (Exception e) {
-			e.printStackTrace(); // istisnai bir durumda hatay� printStackTrace ile yazd�r�r�z.
+			e.printStackTrace(); // istisnai bir durumda hatayı printStackTrace ile yazdırırız.
 		}
 
 	}
