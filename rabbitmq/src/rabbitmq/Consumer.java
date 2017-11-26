@@ -1,10 +1,10 @@
 package rabbitmq;
 
-import com.rabbitmq.client.Connection;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
+//rabbitmq için aþaðýdaki kütüphaneleri kullanmamýz gerekmektedir.
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
@@ -12,6 +12,12 @@ import com.rabbitmq.client.QueueingConsumer.Delivery;
 
 public class Consumer {
 
+	/*
+	 * Secim deðiþkenini static tanýmlalamamýzýn sebebi program çalýþtýðý sürece
+	 * kullanýlsada kullanýlmasada bir yer açar ve ayrýca main dýþýndada
+	 * tanýmlamamýzýn sebebi main fonk. dýþýndaki diðer fonk. eriþilmek
+	 * istenmesidir.
+	 */
 	static String Secim;
 
 	public static void main(String[] args) throws Exception {
@@ -19,7 +25,7 @@ public class Consumer {
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
 
-			factory.setHost("localhost");
+			factory.setHost("localhost"); // host adresimizi tanýmlýyoruz
 
 			Connection connection = factory.newConnection();
 
@@ -31,11 +37,11 @@ public class Consumer {
 			Scanner Giris = new Scanner(System.in);
 			Secim = Giris.nextLine();
 
-			if (Secim.equalsIgnoreCase("a") || Secim.equalsIgnoreCase("A")) {
+			if (Secim.equalsIgnoreCase("a")) {
 				channel.basicConsume("queueA", consumer);
 			}
 
-			if (Secim.equalsIgnoreCase("b") || Secim.equalsIgnoreCase("B")) {
+			if (Secim.equalsIgnoreCase("b")) {
 				channel.basicConsume("queueB", consumer);
 			}
 
