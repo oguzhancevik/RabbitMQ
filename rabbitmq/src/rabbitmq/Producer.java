@@ -5,27 +5,27 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 
-//rabbitmq için aþaðýdaki kütüphaneleri kullanmamýz gerekmektedir.
+//rabbitmq iÃ§in aÅŸaÄŸÄ±daki kÃ¼tÃ¼phaneleri kullanmamÄ±z gerekmektedir.
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class Producer {
 
-	// IOException -> dosya hatasý
-	// TimeoutException -> Bir iþlem veya iþlem için ayrýlan süresi sona erdiðinde
-	// oluþturulan özel durum
+	// IOException -> dosya hatasï¿½
+	// TimeoutException -> Bir iï¿½lem veya iï¿½lem iï¿½in ayrï¿½lan sï¿½resi sona erdiï¿½inde
+	// oluï¿½turulan ï¿½zel durum
 	public static void main(String[] args) throws IOException, TimeoutException {
 
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
-			factory.setHost("localhost"); // host adresimizi tanýmlýyoruz
+			factory.setHost("localhost"); // host adresimizi tanï¿½mlï¿½yoruz
 
 			Connection connection = factory.newConnection();
 
 			Channel channel = connection.createChannel();
 
-			// local'de tanýmlý iþlem yapacaðýmýz queue isimlerimizi tanýmlýyoruz
+			// local'de tanï¿½mlï¿½ iï¿½lem yapacaï¿½ï¿½mï¿½z queue isimlerimizi tanï¿½mlï¿½yoruz
 			String queueA = "queueA";
 			String queueB = "queueB";
 
@@ -34,18 +34,18 @@ public class Producer {
 			Date Zaman = new Date();
 
 			System.out.println("Queue secin (a/b)");
-			Scanner Giris = new Scanner(System.in); // Kullanýcý giriþi için Scanner komutu kullanýrýz
+			Scanner Giris = new Scanner(System.in); // Kullanï¿½cï¿½ giriï¿½i iï¿½in Scanner komutu kullanï¿½rï¿½z
 			Secim = Giris.nextLine();
 
 			System.out.println("Mesaji giriniz:(" + Secim + ")");
-			Mesaj = Giris.nextLine(); // girilen deðeri Mesaj deðiþkenine atadýk
+			Mesaj = Giris.nextLine(); // girilen deï¿½eri Mesaj deï¿½iï¿½kenine atadï¿½k
 			System.out.println(Mesaj);
 
 			Mesaj = Zaman.toString() + " | " + Mesaj + " |";
 
 			/*
-			 * equalsIgnoreCase -> iki stringi büyük küçük harf ayrýmý yapmadan
-			 * karþýlaþtýrýr Ör: a,A
+			 * equalsIgnoreCase -> iki stringi bï¿½yï¿½k kï¿½ï¿½ï¿½k harf ayrï¿½mï¿½ yapmadan
+			 * karï¿½ï¿½laï¿½tï¿½rï¿½r ï¿½r: a,A
 			 */
 			if (Secim.equalsIgnoreCase("a")) {
 				channel.basicPublish("", queueA, null, Mesaj.getBytes());
@@ -55,11 +55,11 @@ public class Producer {
 				channel.basicPublish("", queueB, null, Mesaj.getBytes());
 			}
 
-			// en sonunda ise channel ve connection'ý kapatýyoruz.
+			// en sonunda ise channel ve connection'ï¿½ kapatï¿½yoruz.
 			channel.close();
 			connection.close();
 		} catch (Exception e) {
-			e.printStackTrace(); // istisnai bir durumda hatayý printStackTrace ile yazdýrýrýz.
+			e.printStackTrace(); // istisnai bir durumda hatayï¿½ printStackTrace ile yazdï¿½rï¿½rï¿½z.
 		}
 
 	}
