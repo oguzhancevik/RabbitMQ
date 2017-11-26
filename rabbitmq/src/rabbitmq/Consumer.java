@@ -3,7 +3,7 @@ package rabbitmq;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
-//rabbitmq için aşağıdaki kütüphaneleri kullanmamız gerekmektedir.
+//rabbitmq iÃ§in aÅŸaÄŸÄ±daki kÃ¼tÃ¼phaneleri kullanmamÄ±z gerekmektedir.
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConnectionFactory;
@@ -13,9 +13,9 @@ import com.rabbitmq.client.QueueingConsumer.Delivery;
 public class Consumer {
 
 	/*
-	 * Secim değişkenini static tanımlalamamızın sebebi program çalıştığı sürece
-	 * kullanılsada kullanılmasada bir yer açar ve ayrıca main dışındada
-	 * tanımlamamızın sebebi main fonk. dışındaki diğer fonk. erişilmek
+	 * Secim deÄŸiÅŸkenini static tanÄ±mlamamÄ±zÄ±n sebebi program Ã§alÄ±ÅŸtÄ±ÄŸÄ± sÃ¼rece
+	 * kullanÄ±lsada kullanÄ±lmasada bir yer aÃ§ar ve ayrÄ±ca main dÄ±ÅŸÄ±ndada
+	 * tanÄ±mlamamÄ±zÄ±n sebebi main fonk. dÄ±ÅŸÄ±ndaki diÄŸer fonk. eriÅŸilmek
 	 * istenmesidir.
 	 */
 	static String Secim;
@@ -25,7 +25,7 @@ public class Consumer {
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
 
-			factory.setHost("localhost"); // host adresimizi tanımlıyoruz
+			factory.setHost("localhost"); // host adresimizi tanÄ±mlÄ±yoruz
 
 			Connection connection = factory.newConnection();
 
@@ -33,7 +33,7 @@ public class Consumer {
 
 			QueueingConsumer consumer = new QueueingConsumer(channel);
 
-			System.out.println("Queue seçin (a/b)");
+			System.out.println("Queue seï¿½in (a/b)");
 			Scanner Giris = new Scanner(System.in);
 			Secim = Giris.nextLine();
 
@@ -61,10 +61,11 @@ public class Consumer {
 
 			}
 
+			// en sonunda ise channel ve connection'Ä± kapatÄ±yoruz.
 			channel.close();
 			connection.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); // istisnai bir durumda hatayÄ± printStackTrace ile yazdÄ±rÄ±rÄ±z.
 		}
 
 	}
