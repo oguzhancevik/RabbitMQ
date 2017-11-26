@@ -28,8 +28,8 @@ public class Consumer {
 			QueueingConsumer consumer = new QueueingConsumer(channel);
 
 			System.out.println("Queue seçin (a/b)");
-			Scanner giris = new Scanner(System.in);
-			Secim = giris.nextLine();
+			Scanner Giris = new Scanner(System.in);
+			Secim = Giris.nextLine();
 
 			if (Secim.equalsIgnoreCase("a") || Secim.equalsIgnoreCase("A")) {
 				channel.basicConsume("queueA", consumer);
