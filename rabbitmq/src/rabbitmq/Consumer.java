@@ -33,7 +33,7 @@ public class Consumer {
 
 			QueueingConsumer consumer = new QueueingConsumer(channel);
 
-			System.out.println("Queue se�in (a/b)");
+			System.out.println("Queue secin (a/b)");
 			Scanner Giris = new Scanner(System.in);
 			Secim = Giris.nextLine();
 
