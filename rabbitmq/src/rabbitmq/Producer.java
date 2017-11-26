@@ -12,14 +12,14 @@ import com.rabbitmq.client.ConnectionFactory;
 
 public class Producer {
 
-	// IOException -> dosya hatas�
-	// TimeoutException -> Bir i�lem veya i�lem i�in ayr�lan s�resi sona erdi�inde
-	// olu�turulan �zel durum
+	// IOException -> dosya hatası
+	// TimeoutException -> Bir işlem veya işlem için ayrılan süresi sona erdiğinde
+	// oluşturulan özel durum
 	public static void main(String[] args) throws IOException, TimeoutException {
 
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
-			factory.setHost("localhost"); // host adresimizi tan�ml�yoruz
+			factory.setHost("localhost"); // host adresimizi tanımlıyoruz
 
 			Connection connection = factory.newConnection();
 
