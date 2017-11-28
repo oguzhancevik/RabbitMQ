@@ -23,12 +23,30 @@ public class Consumer {
 	public static void main(String[] args) throws Exception {
 
 		try {
+
+			/*
+			 * ConnectionFactory -> rabbitmq’ya bağlanmak için, java api tarafından sunulan
+			 * soket soyutlama katmanıdır. Kimlik doğrulama vb işlemleri bizim için yapar.
+			 * Connection nesnesini ConnectionFactory üzerinden alırız.
+			 */
 			ConnectionFactory factory = new ConnectionFactory();
 
 			factory.setHost("localhost"); // host adresimizi tanımlıyoruz
 
+			// Connection -> Uygulamadan rabbitmq ya açılan TCP connection’dır.
 			Connection connection = factory.newConnection();
 
+			/*
+			 * Channel -> tek bir TCP bağlantısını kullanılan sanal bağlantılar olarak
+			 * adlandırılabilir. Bazı durumlarda rabbitmq’ya bir den fazla tcp bağlantısı
+			 * ihtiyacımız olabilir. TCP bağlantısı açmak hem yeni kaynak tüketimine neden
+			 * olur hem de yönetim zorlukları içerir. Bu sebeple Channel interface’i
+			 * kullanılır. Her bir thread başına bir channel açılması önemlidir. Channnel
+			 * oluşturduktan sonra queue tanımı yapıyoruz. Queue ismi önemli burada.
+			 * Consumer uygulamamızda, aynı isimli queue’ya bağlanacak. Bu tanımda, verilen
+			 * isim ile daha önceden tanımlanmış bir queue var ise birşey yapılmaz, yok ise
+			 * queue oluşturulur. Ardından ilk mesajımızı gönderiyoruz.
+			 */
 			Channel channel = connection.createChannel();
 
 			QueueingConsumer consumer = new QueueingConsumer(channel);
@@ -37,26 +55,29 @@ public class Consumer {
 			Scanner Giris = new Scanner(System.in);
 			Secim = Giris.nextLine();
 
+			/*
+			 * equalsIgnoreCase -> iki stringi büyük küçük harf ayrımı yapmadan
+			 * karşılaştırır: a,A
+			 */
 			if (Secim.equalsIgnoreCase("a")) {
-				channel.basicConsume("queueA", consumer);
+				channel.basicConsume("queueA", consumer); // bu kısım kuyruktaki mesajları görüntüler
 			}
 
 			if (Secim.equalsIgnoreCase("b")) {
-				channel.basicConsume("queueB", consumer);
+				channel.basicConsume("queueB", consumer); // bu kısım kuyruktaki mesajları görüntüler
 			}
 
 			boolean removeAllUpTo = true;
 			while (true) {
-				Delivery delivery = consumer.nextDelivery(5000);
-				if (delivery == null) {
+				Delivery delivery = consumer.nextDelivery(5000); // teslim işlemini 5 sn. gerçekleştirir
+
+				if (delivery == null) // mesaj yok ise çıkar
 					break;
-				}
 
 				long deliveryTag = delivery.getEnvelope().getDeliveryTag();
 				channel.basicAck(deliveryTag, removeAllUpTo);
 
 				if (processMessage(delivery)) {
-
 				}
 
 			}
@@ -72,8 +93,8 @@ public class Consumer {
 
 	private static boolean processMessage(Delivery delivery) throws UnsupportedEncodingException {
 		try {
-			String msg = new String(delivery.getBody(), "UTF-8");
-			System.out.println("[X] Yeni Mesaj(" + Secim + ")" + "\n" + msg);
+			String Mesaj = new String(delivery.getBody(), "UTF-8");
+			System.out.println("[X] Yeni Mesaj(" + Secim + ")" + "\n" + Mesaj);
 			return false;
 		} catch (Exception e) {
 			e.printStackTrace();

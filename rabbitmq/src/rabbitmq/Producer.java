@@ -18,11 +18,28 @@ public class Producer {
 	public static void main(String[] args) throws IOException, TimeoutException {
 
 		try {
+			/*
+			 * ConnectionFactory -> rabbitmq’ya bağlanmak için, java api tarafından sunulan
+			 * soket soyutlama katmanıdır. Kimlik doğrulama vb işlemleri bizim için yapar.
+			 * Connection nesnesini ConnectionFactory üzerinden alırız.
+			 */
 			ConnectionFactory factory = new ConnectionFactory();
 			factory.setHost("localhost"); // host adresimizi tanımlıyoruz
 
+			// Connection -> Uygulamadan rabbitmq ya açılan TCP connection’dır.
 			Connection connection = factory.newConnection();
 
+			/*
+			 * Channel -> tek bir TCP bağlantısını kullanılan sanal bağlantılar olarak
+			 * adlandırılabilir. Bazı durumlarda rabbitmq’ya bir den fazla tcp bağlantısı
+			 * ihtiyacımız olabilir. TCP bağlantısı açmak hem yeni kaynak tüketimine neden
+			 * olur hem de yönetim zorlukları içerir. Bu sebeple Channel interface’i
+			 * kullanılır. Her bir thread başına bir channel açılması önemlidir. Channnel
+			 * oluşturduktan sonra queue tanımı yapıyoruz. Queue ismi önemli burada.
+			 * Consumer uygulamamızda, aynı isimli queue’ya bağlanacak. Bu tanımda, verilen
+			 * isim ile daha önceden tanımlanmış bir queue var ise birşey yapılmaz, yok ise
+			 * queue oluşturulur. Ardından ilk mesajımızı gönderiyoruz.
+			 */
 			Channel channel = connection.createChannel();
 
 			// local'de tanımlı işlem yapacağımız queue isimlerimizi tanımlıyoruz
@@ -48,10 +65,12 @@ public class Producer {
 			 * karşılaştırır: a,A
 			 */
 			if (Secim.equalsIgnoreCase("a")) {
+				// bu kısımda producer tarafından mesaj gönderilir.
 				channel.basicPublish("", queueA, null, Mesaj.getBytes());
 			}
 
 			if (Secim.equalsIgnoreCase("b")) {
+				// bu kısımda producer tarafından mesaj gönderilir.
 				channel.basicPublish("", queueB, null, Mesaj.getBytes());
 			}
 
