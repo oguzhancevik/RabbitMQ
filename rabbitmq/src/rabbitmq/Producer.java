@@ -54,6 +54,16 @@ public class Producer {
 			Scanner Giris = new Scanner(System.in); // Kullanıcı girişi için Scanner komutunu kullanırız
 			Secim = Giris.nextLine();
 
+			/*
+			 * a ve b kuyruklarından farkı bir kuyruk girmememiz için while ile kontrol
+			 * ettim.
+			 */
+			while (!(Secim.equalsIgnoreCase("a") || Secim.equalsIgnoreCase("b"))) {
+				System.out.println("Yanlış Seçim Lütfen a/b kuyruğundan birini seçiniz!");
+				System.out.println("Queue secin (a/b)");
+				Secim = Giris.nextLine();
+			}
+
 			System.out.println("Mesaji giriniz:(" + Secim + ")");
 			Mesaj = Giris.nextLine(); // Girilen değeri Mesaj değişkenine atadık
 			System.out.println(Mesaj);
@@ -74,9 +84,10 @@ public class Producer {
 				channel.basicPublish("", queueB, null, Mesaj.getBytes());
 			}
 
-			// en sonunda ise channel ve connection'ı kapatıyoruz.
+			// en sonunda ise channel, connection ve Giris'i kapatıyoruz.
 			channel.close();
 			connection.close();
+			Giris.close();
 		} catch (Exception e) {
 			e.printStackTrace(); // istisnai bir durumda hatayı printStackTrace ile yazdırırız.
 		}
