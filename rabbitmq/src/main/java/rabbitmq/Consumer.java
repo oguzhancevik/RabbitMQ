@@ -1,30 +1,26 @@
 package rabbitmq;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.concurrent.TimeoutException;
 import java.io.UnsupportedEncodingException;
+import java.util.Scanner;
 
 //rabbitmq için aşağıdaki kütüphaneleri kullanmamız gerekmektedir.
-import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.QueueingConsumer.Delivery;
 
-public class Chat {
+public class Consumer {
 
 	/*
-	 * Değişkenleri static tanımlamamızın sebebi program çalıştığı sürece
+	 * Secim değişkenini static tanımlamamızın sebebi program çalıştığı sürece
 	 * kullanılsada kullanılmasada bir yer açar ve ayrıca main dışında da
 	 * tanımlamamızın sebebi main fonk. dışındaki diğer fonk. erişilmek
 	 * istenmesidir.
 	 */
-	static String Mesaj;
 	static String Secim;
 
-	public static void main(String[] args) throws IOException, TimeoutException {
+	public static void main(String[] args) throws Exception {
 
 		try {
 
@@ -33,11 +29,12 @@ public class Chat {
 			 * soket soyutlama katmanıdır. Kimlik doğrulama vb işlemleri bizim için yapar.
 			 * Connection nesnesini ConnectionFactory üzerinden alırız.
 			 */
-			ConnectionFactory Factory = new ConnectionFactory();
-			Factory.setHost("localhost"); // host adresimizi tanımlıyoruz
+			ConnectionFactory factory = new ConnectionFactory();
+
+			factory.setHost("localhost"); // host adresimizi tanımlıyoruz
 
 			// Connection -> Uygulamadan rabbitmq ya açılan TCP connection’dır.
-			Connection connection = Factory.newConnection();
+			Connection connection = factory.newConnection();
 
 			/*
 			 * Channel -> tek bir TCP bağlantısını kullanılan sanal bağlantılar olarak
@@ -52,16 +49,14 @@ public class Chat {
 			 */
 			Channel channel = connection.createChannel();
 
-			QueueingConsumer Consumer = new QueueingConsumer(channel);
-
 			// local'de tanımlı işlem yapacağımız queue isimlerimizi tanımlıyoruz
 			String queueA = "queueA";
 			String queueB = "queueB";
 
-			Date Zaman = new Date();
+			QueueingConsumer Consumer = new QueueingConsumer(channel);
 
 			System.out.println("Queue secin (a/b)");
-			Scanner Giris = new Scanner(System.in); // Kullanıcı girişi için Scanner komutunu kullanırız
+			Scanner Giris = new Scanner(System.in);
 			Secim = Giris.nextLine();
 
 			/*
@@ -73,7 +68,8 @@ public class Chat {
 				System.out.println("Queue secin (a/b)");
 				Secim = Giris.nextLine();
 			}
-
+			
+			
 			/*
 			 * equalsIgnoreCase -> iki stringi büyük küçük harf ayrımı yapmadan
 			 * karşılaştırır: a,A
@@ -88,9 +84,7 @@ public class Chat {
 
 			boolean removeAllUpTo = true;
 			while (true) {
-
-				// teslim işlemini 0.5 saniyede gerçekleştirir
-				Delivery delivery = Consumer.nextDelivery(500);
+				Delivery delivery = Consumer.nextDelivery(5000); // teslim işlemini 5 sn. gerçekleştirir
 
 				if (delivery == null) // mesaj yok ise çıkar
 					break;
@@ -103,44 +97,12 @@ public class Chat {
 
 			}
 
-			String Cikis;
-			do {
-				System.out.println("Mesaji giriniz:(" + Secim + ")");
-				Mesaj = Giris.nextLine(); // Girilen değeri Mesaj değişkenine atadık
-
-				// mesajı sonlandırmak için şart ifadesini do while döngüsüyle kontrol ettim
-				do {
-					System.out.println("Çımak istiyormusunuz E/H");
-					Cikis = Giris.nextLine();
-				} while (!(Cikis.equalsIgnoreCase("e") || Cikis.equalsIgnoreCase("h")));
-
-				Mesaj = Zaman.toString() + " | " + Mesaj + " |";
-
-				/*
-				 * equalsIgnoreCase -> iki stringi büyük küçük harf ayrımı yapmadan
-				 * karşılaştırır: a,A
-				 */
-				if (Secim.equalsIgnoreCase("a")) {
-					// bu kısımda producer tarafından mesaj gönderilir.
-					channel.basicPublish("", queueB, null, Mesaj.getBytes());
-				}
-
-				if (Secim.equalsIgnoreCase("b")) {
-					// bu kısımda producer tarafından mesaj gönderilir.
-					channel.basicPublish("", queueA, null, Mesaj.getBytes());
-				}
-
-			} while (Cikis.equalsIgnoreCase("h"));
-
 			// en sonunda ise channel, connection ve Giris'i kapatıyoruz.
 			channel.close();
 			connection.close();
 			Giris.close();
-
-			System.out.println("Mesajın gönderildi!");
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); // istisnai bir durumda hatayı printStackTrace ile yazdırırız.
 		}
 
 	}

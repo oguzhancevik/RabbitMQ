@@ -1,36 +1,29 @@
 package rabbitmq;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.TimeoutException;
 
 //rabbitmq için aşağıdaki kütüphaneleri kullanmamız gerekmektedir.
-import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.QueueingConsumer;
-import com.rabbitmq.client.QueueingConsumer.Delivery;
 
-public class Consumer {
+public class Producer {
 
-	/*
-	 * Secim değişkenini static tanımlamamızın sebebi program çalıştığı sürece
-	 * kullanılsada kullanılmasada bir yer açar ve ayrıca main dışında da
-	 * tanımlamamızın sebebi main fonk. dışındaki diğer fonk. erişilmek
-	 * istenmesidir.
-	 */
-	static String Secim;
-
-	public static void main(String[] args) throws Exception {
+	// IOException -> dosya hatası
+	// TimeoutException -> Bir işlem veya işlem için ayrılan süresi sona erdiğinde
+	// oluşturulan özel durum
+	public static void main(String[] args) throws IOException, TimeoutException {
 
 		try {
-
 			/*
 			 * ConnectionFactory -> rabbitmq’ya bağlanmak için, java api tarafından sunulan
 			 * soket soyutlama katmanıdır. Kimlik doğrulama vb işlemleri bizim için yapar.
 			 * Connection nesnesini ConnectionFactory üzerinden alırız.
 			 */
 			ConnectionFactory factory = new ConnectionFactory();
-
 			factory.setHost("localhost"); // host adresimizi tanımlıyoruz
 
 			// Connection -> Uygulamadan rabbitmq ya açılan TCP connection’dır.
@@ -53,12 +46,14 @@ public class Consumer {
 			String queueA = "queueA";
 			String queueB = "queueB";
 
-			QueueingConsumer consumer = new QueueingConsumer(channel);
+			String Secim;
+			String Mesaj;
+			Date Zaman = new Date();
 
 			System.out.println("Queue secin (a/b)");
-			Scanner Giris = new Scanner(System.in);
+			Scanner Giris = new Scanner(System.in); // Kullanıcı girişi için Scanner komutunu kullanırız
 			Secim = Giris.nextLine();
-
+			
 			/*
 			 * a ve b kuyruklarından farkı bir kuyruk girmememiz için while ile kontrol
 			 * ettim.
@@ -69,31 +64,24 @@ public class Consumer {
 				Secim = Giris.nextLine();
 			}
 
+			System.out.println("Mesaji giriniz:(" + Secim + ")");
+			Mesaj = Giris.nextLine(); // Girilen değeri Mesaj değişkenine atadık
+			System.out.println(Mesaj);
+
+			Mesaj = Zaman.toString() + " | " + Mesaj + " |";
+
 			/*
 			 * equalsIgnoreCase -> iki stringi büyük küçük harf ayrımı yapmadan
 			 * karşılaştırır: a,A
 			 */
 			if (Secim.equalsIgnoreCase("a")) {
-				channel.basicConsume(queueA, consumer); // bu kısım kuyruktaki mesajları görüntüler
+				// bu kısımda producer tarafından mesaj gönderilir.
+				channel.basicPublish("", queueA, null, Mesaj.getBytes());
 			}
 
 			if (Secim.equalsIgnoreCase("b")) {
-				channel.basicConsume(queueB, consumer); // bu kısım kuyruktaki mesajları görüntüler
-			}
-
-			boolean removeAllUpTo = true;
-			while (true) {
-				Delivery delivery = consumer.nextDelivery(5000); // teslim işlemini 5 sn. gerçekleştirir
-
-				if (delivery == null) // mesaj yok ise çıkar
-					break;
-
-				long deliveryTag = delivery.getEnvelope().getDeliveryTag();
-				channel.basicAck(deliveryTag, removeAllUpTo);
-
-				if (processMessage(delivery)) {
-				}
-
+				// bu kısımda producer tarafından mesaj gönderilir.
+				channel.basicPublish("", queueB, null, Mesaj.getBytes());
 			}
 
 			// en sonunda ise channel, connection ve Giris'i kapatıyoruz.
@@ -102,18 +90,6 @@ public class Consumer {
 			Giris.close();
 		} catch (Exception e) {
 			e.printStackTrace(); // istisnai bir durumda hatayı printStackTrace ile yazdırırız.
-		}
-
-	}
-
-	private static boolean processMessage(Delivery delivery) throws UnsupportedEncodingException {
-		try {
-			String Mesaj = new String(delivery.getBody(), "UTF-8");
-			System.out.println("[X] Yeni Mesaj(" + Secim + ")" + "\n" + Mesaj);
-			return false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return true;
 		}
 
 	}
