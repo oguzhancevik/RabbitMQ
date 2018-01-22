@@ -33,11 +33,11 @@ public class Chat {
 			 * soket soyutlama katmanıdır. Kimlik doğrulama vb işlemleri bizim için yapar.
 			 * Connection nesnesini ConnectionFactory üzerinden alırız.
 			 */
-			ConnectionFactory Factory = new ConnectionFactory();
-			Factory.setHost("localhost"); // host adresimizi tanımlıyoruz
+			ConnectionFactory factory = new ConnectionFactory();
+			factory.setHost("localhost"); // host adresimizi tanımlıyoruz
 
 			// Connection -> Uygulamadan rabbitmq ya açılan TCP connection’dır.
-			Connection connection = Factory.newConnection();
+			Connection connection = factory.newConnection();
 
 			/*
 			 * Channel -> tek bir TCP bağlantısını kullanılan sanal bağlantılar olarak
