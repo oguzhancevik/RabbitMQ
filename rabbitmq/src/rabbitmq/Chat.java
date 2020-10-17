@@ -96,7 +96,7 @@ public class Chat {
 					break;
 
 				long deliveryTag = delivery.getEnvelope().getDeliveryTag();
-				channel.basicAck(deliveryTag, removeAllUpTo);
+				channel.basicAck(deliveryTag, true);
 
 				if (processMessage(delivery)) {
 				}
